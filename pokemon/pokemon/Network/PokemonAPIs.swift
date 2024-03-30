@@ -19,4 +19,11 @@ final class PokemonAPIs {
             .decode(type: Pokemons.self, decoder: JSONDecoder())
             .eraseToAnyPublisher()
     }
+    
+    func pokemonDetail(id:Int) ->AnyPublisher<PokemonDetail,Error> {
+        return provider.requestPublisher(.PokemonInfo(id: id))
+            .map{$0.data}
+            .decode(type: PokemonDetail.self, decoder: JSONDecoder())
+            .eraseToAnyPublisher()
+    }
 }

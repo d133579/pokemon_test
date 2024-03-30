@@ -10,7 +10,7 @@ import Moya
 
 enum PokemanService {
     case PokemonList(limit:Int,offset:Int)
-    case PokemonInfo(id:String)
+    case PokemonInfo(id:Int)
 }
 
 extension PokemanService:CustomTargetType {

@@ -42,4 +42,24 @@ final class pokemonTests: XCTestCase {
         waitForExpectations(timeout: 10)
         XCTAssertNil(error)
     }
+    
+    func testPokemonDetail() throws {
+        let exp = expectation(description: "pokemon detail")
+        var error:Error?
+        
+        service.pokemonDetail(id: 1)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let _error):
+                    error = _error
+                }
+                exp.fulfill()
+            } receiveValue: { detail in
+                print(detail)
+            }.store(in: &cancallables)
+        waitForExpectations(timeout: 10)
+        XCTAssertNil(error)
+    }
 }
