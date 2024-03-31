@@ -37,7 +37,16 @@ struct Pokemons:Codable {
     }
 }
 
-struct PokemonOutline:Codable {
+struct PokemonOutline:Codable,Equatable {
+    var id:Int {
+        get {
+            let components = url.components(separatedBy: "/")
+            if (components.count >= 2) {
+                return Int(components[components.count - 2])!
+            }
+            return -1
+        }
+    }
     var url:String
     var name:String
     
