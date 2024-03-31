@@ -30,6 +30,7 @@
 		A26DCDA32BB8FD9700BA1DEF /* PokemonListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A26DCDA22BB8FD9700BA1DEF /* PokemonListTableViewCell.xib */; };
 		A26DCDA42BB8FD9700BA1DEF /* PokemonListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDA12BB8FD9700BA1DEF /* PokemonListTableViewCell.swift */; };
 		A26DCDA62BB9621100BA1DEF /* PokemonListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDA52BB9621100BA1DEF /* PokemonListViewModelTests.swift */; };
+		A26DCDA92BB96DE300BA1DEF /* MJRefresh in Frameworks */ = {isa = PBXBuildFile; productRef = A26DCDA82BB96DE300BA1DEF /* MJRefresh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A26DCD4C2BB7BC9F00BA1DEF /* RxMoya in Frameworks */,
+				A26DCDA92BB96DE300BA1DEF /* MJRefresh in Frameworks */,
 				A26DCD462BB7BC9F00BA1DEF /* CombineMoya in Frameworks */,
 				A26DCD4A2BB7BC9F00BA1DEF /* ReactiveMoya in Frameworks */,
 				A26DCD432BB7BC9500BA1DEF /* Kingfisher in Frameworks */,
@@ -242,6 +244,7 @@
 				A26DCD472BB7BC9F00BA1DEF /* Moya */,
 				A26DCD492BB7BC9F00BA1DEF /* ReactiveMoya */,
 				A26DCD4B2BB7BC9F00BA1DEF /* RxMoya */,
+				A26DCDA82BB96DE300BA1DEF /* MJRefresh */,
 			);
 			productName = pokemon;
 			productReference = A26DCCF82BB6677400BA1DEF /* pokemon.app */;
@@ -318,6 +321,7 @@
 			packageReferences = (
 				A26DCD412BB7BC9500BA1DEF /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				A26DCD442BB7BC9F00BA1DEF /* XCRemoteSwiftPackageReference "Moya" */,
+				A26DCDA72BB96DE300BA1DEF /* XCRemoteSwiftPackageReference "MJRefresh" */,
 			);
 			productRefGroup = A26DCCF92BB6677400BA1DEF /* Products */;
 			projectDirPath = "";
@@ -728,6 +732,14 @@
 				minimumVersion = 15.0.3;
 			};
 		};
+		A26DCDA72BB96DE300BA1DEF /* XCRemoteSwiftPackageReference "MJRefresh" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CoderMJLee/MJRefresh";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.7.9;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -755,6 +767,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A26DCD442BB7BC9F00BA1DEF /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = RxMoya;
+		};
+		A26DCDA82BB96DE300BA1DEF /* MJRefresh */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A26DCDA72BB96DE300BA1DEF /* XCRemoteSwiftPackageReference "MJRefresh" */;
+			productName = MJRefresh;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

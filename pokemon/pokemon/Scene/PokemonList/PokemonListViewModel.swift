@@ -16,12 +16,12 @@ enum PokemonListViewModelState {
 }
 
 final class PokemonListViewModel {
-    @Published var state:PokemonListViewModelState = .loading
+    @Published private(set) var state:PokemonListViewModelState = .loading
     @Published private(set) var pokemonOutlines = [PokemonOutline]()
     private let service = PokemonAPIs()
     private var cancellables = Set<AnyCancellable>()
     private var offset = 0
-    private var isLastPage = false
+    private(set) var isLastPage = false
     private let perPage = 20
     private var detailDic = [Int:PokemonDetail]()
     

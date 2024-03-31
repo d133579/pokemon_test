@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import MJRefresh
 
 class PokemonListViewController: UIViewController {
     lazy var tableView:UITableView = {
@@ -38,6 +39,13 @@ class PokemonListViewController: UIViewController {
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
             tableView.register(UINib(nibName: "PokemonListTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
+            
+            let footer = MJRefreshAutoNormalFooter { [weak self] in
+                guard let self = self else {return}
+                self.viewModel.fetchPokemonList()
+            }
+            footer.loadingView?.color = .black
+            tableView.mj_footer = footer
         }
         
         setupTableView()
@@ -50,8 +58,9 @@ class PokemonListViewController: UIViewController {
                 .sink { state in
                     switch state {
                     case .fetchDetailSuccess(let index,let detail):
-                        let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as! PokemonListTableViewCell
-                        cell.setupDetail(_pokemonDetail: detail)
+                        if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PokemonListTableViewCell {
+                            cell.setupDetail(_pokemonDetail: detail)
+                        }
                     default:
                         break
                     }
@@ -62,6 +71,10 @@ class PokemonListViewController: UIViewController {
                 .receive(on: DispatchQueue.main)
                 .sink { _ in
                     self.tableView.reloadData()
+                    self.tableView.mj_footer?.endRefreshing()
+                    if self.viewModel.isLastPage {
+                        self.tableView.mj_footer?.endRefreshingWithNoMoreData()
+                    }
                 }
                 .store(in: &cancellables)
         }

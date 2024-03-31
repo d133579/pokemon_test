@@ -23,6 +23,10 @@ class PokemonListTableViewCell: UITableViewCell {
         // Initialization code
     }
     
+    override func prepareForReuse() {
+        thumbnailImageView.image = nil
+    }
+    
     func configure(_pokemonOutline:PokemonOutline, detailHandler:(Int) -> Void) {
         pokemonOutline = _pokemonOutline
         idLabel.text = String(pokemonOutline.id)
