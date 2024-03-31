@@ -9,6 +9,10 @@ import UIKit
 import Combine
 import MJRefresh
 
+protocol PokemonListViewControllerDelegate:AnyObject {
+    func goToPokemonDetail(model:PokemonDetail)
+}
+
 class PokemonListViewController: UIViewController {
     lazy var tableView:UITableView = {
         var tableView = UITableView()
@@ -20,6 +24,7 @@ class PokemonListViewController: UIViewController {
     private let viewModel = PokemonListViewModel()
     private var cancellables = Set<AnyCancellable>()
     private let cellIdentifier = "cell"
+    weak var delegate:PokemonListViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,8 +102,7 @@ extension PokemonListViewController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let detail = viewModel.detailDic[viewModel.pokemonOutlines[indexPath.row].id] {
-            let vc = PokemonDetailViewController(pokemon: detail)
-            navigationController?.pushViewController(vc, animated: true)
+            delegate?.goToPokemonDetail(model: detail)
         }
     }
     

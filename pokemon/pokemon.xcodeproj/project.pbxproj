@@ -34,6 +34,9 @@
 		A26DCDB02BB9825600BA1DEF /* PokemonDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A26DCDAF2BB9825600BA1DEF /* PokemonDetailViewController.xib */; };
 		A26DCDB12BB9825600BA1DEF /* PokemonDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDAE2BB9825600BA1DEF /* PokemonDetailViewController.swift */; };
 		A26DCDB32BB984EE00BA1DEF /* PokemonDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDB22BB984EE00BA1DEF /* PokemonDetailViewModel.swift */; };
+		A26DCDB52BB99E1000BA1DEF /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDB42BB99E1000BA1DEF /* ApplicationCoordinator.swift */; };
+		A26DCDB72BB9A01D00BA1DEF /* PokemonListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDB62BB9A01D00BA1DEF /* PokemonListCoordinator.swift */; };
+		A26DCDB92BB9A32100BA1DEF /* PokemonDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDB82BB9A32100BA1DEF /* PokemonDetailCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +82,9 @@
 		A26DCDAE2BB9825600BA1DEF /* PokemonDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailViewController.swift; sourceTree = "<group>"; };
 		A26DCDAF2BB9825600BA1DEF /* PokemonDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PokemonDetailViewController.xib; sourceTree = "<group>"; };
 		A26DCDB22BB984EE00BA1DEF /* PokemonDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailViewModel.swift; sourceTree = "<group>"; };
+		A26DCDB42BB99E1000BA1DEF /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
+		A26DCDB62BB9A01D00BA1DEF /* PokemonListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListCoordinator.swift; sourceTree = "<group>"; };
+		A26DCDB82BB9A32100BA1DEF /* PokemonDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +203,7 @@
 			children = (
 				A26DCCFB2BB6677400BA1DEF /* AppDelegate.swift */,
 				A26DCCFD2BB6677400BA1DEF /* SceneDelegate.swift */,
+				A26DCDB42BB99E1000BA1DEF /* ApplicationCoordinator.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -216,6 +223,7 @@
 				A26DCDA02BB8FD7600BA1DEF /* View */,
 				A26DCD9B2BB8F59B00BA1DEF /* PokemonListViewController.swift */,
 				A26DCD9E2BB8F5F500BA1DEF /* PokemonListViewModel.swift */,
+				A26DCDB62BB9A01D00BA1DEF /* PokemonListCoordinator.swift */,
 			);
 			path = PokemonList;
 			sourceTree = "<group>";
@@ -235,6 +243,7 @@
 				A26DCDAE2BB9825600BA1DEF /* PokemonDetailViewController.swift */,
 				A26DCDB22BB984EE00BA1DEF /* PokemonDetailViewModel.swift */,
 				A26DCDAF2BB9825600BA1DEF /* PokemonDetailViewController.xib */,
+				A26DCDB82BB9A32100BA1DEF /* PokemonDetailCoordinator.swift */,
 			);
 			path = PokemonDetail;
 			sourceTree = "<group>";
@@ -393,10 +402,13 @@
 				A26DCD572BB7CBB600BA1DEF /* PokemonAPIs.swift in Sources */,
 				A26DCD982BB81C3000BA1DEF /* PokemonDetail.swift in Sources */,
 				A26DCDA42BB8FD9700BA1DEF /* PokemonListTableViewCell.swift in Sources */,
+				A26DCDB92BB9A32100BA1DEF /* PokemonDetailCoordinator.swift in Sources */,
 				A26DCD9F2BB8F5F500BA1DEF /* PokemonListViewModel.swift in Sources */,
 				A26DCDB32BB984EE00BA1DEF /* PokemonDetailViewModel.swift in Sources */,
 				A26DCD9C2BB8F59B00BA1DEF /* PokemonListViewController.swift in Sources */,
 				A26DCD502BB7BD0400BA1DEF /* PokemanService.swift in Sources */,
+				A26DCDB72BB9A01D00BA1DEF /* PokemonListCoordinator.swift in Sources */,
+				A26DCDB52BB99E1000BA1DEF /* ApplicationCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
