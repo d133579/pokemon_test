@@ -90,10 +90,12 @@ struct Sprites:Codable {
 
 struct Species:Codable {
     var name:String
+    var descriptions:String?
     var evolutionChain:EvolutionChain?
     
     enum CodingKeys:String, CodingKey {
         case name
+        case descriptions = "form_descriptions"
         case evolutionChain = "evolution_chain"
     }
     
@@ -101,12 +103,14 @@ struct Species:Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.name, forKey: .name)
         try container.encodeIfPresent(self.evolutionChain, forKey: .evolutionChain)
+        try container.encodeIfPresent(self.descriptions, forKey: .descriptions)
     }
     
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.name = try container.decode(String.self, forKey: .name)
         self.evolutionChain = try container.decodeIfPresent(EvolutionChain.self, forKey: .evolutionChain)
+        self.descriptions = try container.decodeIfPresent(String.self, forKey: .descriptions)
     }
 }
 

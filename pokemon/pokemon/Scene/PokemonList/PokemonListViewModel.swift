@@ -23,7 +23,7 @@ final class PokemonListViewModel {
     private var offset = 0
     private(set) var isLastPage = false
     private let perPage = 20
-    private var detailDic = [Int:PokemonDetail]()
+    private(set) var detailDic = [Int:PokemonDetail]()
     
     func fetchPokemonList() {
         let completionHandler: (Subscribers.Completion<Error>) -> Void = { [weak self] completion in

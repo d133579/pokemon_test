@@ -80,7 +80,6 @@ class PokemonListViewController: UIViewController {
         }
         bindingViewModelToView()
     }
-    
 }
 
 extension PokemonListViewController: UITableViewDelegate,UITableViewDataSource {
@@ -94,6 +93,13 @@ extension PokemonListViewController: UITableViewDelegate,UITableViewDataSource {
             viewModel.fetchPokemonDetail(id: id)
         })
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let detail = viewModel.detailDic[viewModel.pokemonOutlines[indexPath.row].id] {
+            let vc = PokemonDetailViewController(pokemon: detail)
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

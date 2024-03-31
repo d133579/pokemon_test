@@ -19,8 +19,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        let rootViewController = PokemonListViewController()
-        window?.rootViewController = rootViewController
+        
+        let nav = UINavigationController(rootViewController: PokemonListViewController())
+        window?.rootViewController = nav
         window?.makeKeyAndVisible()
     }
 
