@@ -11,10 +11,10 @@ import Combine
 
 @testable import pokemon
 
-final class pokemonTests: XCTestCase {
+final class PokemonAPIsTests: XCTestCase {
     
     private let service = PokemonAPIs()
-    var cancallables = Set<AnyCancellable>()
+    var cancellables = Set<AnyCancellable>()
     
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -38,7 +38,7 @@ final class pokemonTests: XCTestCase {
                 exp.fulfill()
             } receiveValue: { pokemons in
                 print("")
-            }.store(in: &cancallables)
+            }.store(in: &cancellables)
         waitForExpectations(timeout: 10)
         XCTAssertNil(error)
     }
@@ -58,7 +58,7 @@ final class pokemonTests: XCTestCase {
                 exp.fulfill()
             } receiveValue: { detail in
                 print(detail)
-            }.store(in: &cancallables)
+            }.store(in: &cancellables)
         waitForExpectations(timeout: 10)
         XCTAssertNil(error)
     }

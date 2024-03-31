@@ -11,7 +11,7 @@
 		A26DCCFE2BB6677400BA1DEF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCCFD2BB6677400BA1DEF /* SceneDelegate.swift */; };
 		A26DCD052BB6677600BA1DEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A26DCD042BB6677600BA1DEF /* Assets.xcassets */; };
 		A26DCD082BB6677600BA1DEF /* Base in Resources */ = {isa = PBXBuildFile; fileRef = A26DCD072BB6677600BA1DEF /* Base */; };
-		A26DCD132BB6677700BA1DEF /* pokemonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCD122BB6677700BA1DEF /* pokemonTests.swift */; };
+		A26DCD132BB6677700BA1DEF /* PokemonAPIsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCD122BB6677700BA1DEF /* PokemonAPIsTests.swift */; };
 		A26DCD1D2BB6677700BA1DEF /* pokemonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCD1C2BB6677700BA1DEF /* pokemonUITests.swift */; };
 		A26DCD1F2BB6677700BA1DEF /* pokemonUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCD1E2BB6677700BA1DEF /* pokemonUITestsLaunchTests.swift */; };
 		A26DCD432BB7BC9500BA1DEF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A26DCD422BB7BC9500BA1DEF /* Kingfisher */; };
@@ -57,7 +57,7 @@
 		A26DCD072BB6677600BA1DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A26DCD092BB6677600BA1DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A26DCD0E2BB6677600BA1DEF /* pokemonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pokemonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A26DCD122BB6677700BA1DEF /* pokemonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pokemonTests.swift; sourceTree = "<group>"; };
+		A26DCD122BB6677700BA1DEF /* PokemonAPIsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonAPIsTests.swift; sourceTree = "<group>"; };
 		A26DCD182BB6677700BA1DEF /* pokemonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pokemonUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A26DCD1C2BB6677700BA1DEF /* pokemonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pokemonUITests.swift; sourceTree = "<group>"; };
 		A26DCD1E2BB6677700BA1DEF /* pokemonUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pokemonUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -141,7 +141,7 @@
 		A26DCD112BB6677700BA1DEF /* pokemonTests */ = {
 			isa = PBXGroup;
 			children = (
-				A26DCD122BB6677700BA1DEF /* pokemonTests.swift */,
+				A26DCD122BB6677700BA1DEF /* PokemonAPIsTests.swift */,
 				A26DCDA52BB9621100BA1DEF /* PokemonListViewModelTests.swift */,
 			);
 			path = pokemonTests;
@@ -380,7 +380,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A26DCD132BB6677700BA1DEF /* pokemonTests.swift in Sources */,
+				A26DCD132BB6677700BA1DEF /* PokemonAPIsTests.swift in Sources */,
 				A26DCDA62BB9621100BA1DEF /* PokemonListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
