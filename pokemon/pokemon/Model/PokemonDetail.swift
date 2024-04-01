@@ -8,12 +8,13 @@
 import Foundation
 
 
-struct PokemonDetail: Codable {
+class PokemonDetail: Codable {
     var id: Int
     var name: String
     var types: [PokemonType]
     var sprites: Sprites
     var species: Species
+    var isFavorite = false
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -32,7 +33,7 @@ struct PokemonDetail: Codable {
         try container.encode(species, forKey: .species)
     }
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(Int.self, forKey: .id)
         self.name = try container.decode(String.self, forKey: .name)
@@ -42,7 +43,7 @@ struct PokemonDetail: Codable {
     }
 }
 
-struct PokemonType:Codable {
+class PokemonType:Codable {
     var slot:Int
     var name:String
     
@@ -62,7 +63,7 @@ struct PokemonType:Codable {
     }
     
     
-    init(from decoder: any Decoder) throws {
+    required init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.slot = try container.decode(Int.self, forKey: .slot)
         let typeContainer = try container.nestedContainer(keyedBy: CodingKeys.NestedCodingKeys.self, forKey: .type)
@@ -70,7 +71,7 @@ struct PokemonType:Codable {
     }
 }
 
-struct Sprites:Codable {
+class Sprites:Codable {
     var frontImageURL:String
     
     enum CodingKeys: String, CodingKey {
@@ -82,13 +83,13 @@ struct Sprites:Codable {
         try container.encode(frontImageURL, forKey: .frontImageURL)
     }
     
-    init(from decoder: any Decoder) throws {
+    required init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.frontImageURL = try container.decode(String.self, forKey: .frontImageURL)
     }
 }
 
-struct Species:Codable {
+class Species:Codable {
     var name:String
     var descriptions:String?
     var evolutionChain:EvolutionChain?
@@ -106,7 +107,7 @@ struct Species:Codable {
         try container.encodeIfPresent(self.descriptions, forKey: .descriptions)
     }
     
-    init(from decoder: any Decoder) throws {
+    required init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.name = try container.decode(String.self, forKey: .name)
         self.evolutionChain = try container.decodeIfPresent(EvolutionChain.self, forKey: .evolutionChain)

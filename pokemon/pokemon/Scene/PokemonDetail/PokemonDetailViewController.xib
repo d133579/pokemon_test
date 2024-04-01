@@ -14,6 +14,7 @@
                 <outlet property="descriptionsStackView" destination="1Kh-6b-sjz" id="seH-x8-Ttx"/>
                 <outlet property="evolutionChainLabel" destination="per-qa-GdF" id="0Hz-XQ-fOD"/>
                 <outlet property="evolutionChainStackView" destination="wwC-Tv-QnL" id="ZRs-6k-nDL"/>
+                <outlet property="favoriteBtn" destination="pJS-nx-UFb" id="2Nd-un-n6b"/>
                 <outlet property="idLabel" destination="1Es-rF-5WK" id="6pk-2w-lcn"/>
                 <outlet property="nameLabel" destination="P8M-Mi-apK" id="ILK-lt-qja"/>
                 <outlet property="thumbnailImageView" destination="G3P-1B-deP" id="W4K-kS-zXn"/>
@@ -123,6 +124,18 @@
                         </stackView>
                     </subviews>
                 </stackView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pJS-nx-UFb">
+                    <rect key="frame" x="323" y="79" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="HOJ-8p-fh5"/>
+                        <constraint firstAttribute="height" constant="50" id="lQJ-9b-8Va"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="star" catalog="system"/>
+                    <connections>
+                        <action selector="favoriteTapped:" destination="-1" eventType="touchUpInside" id="eUc-TU-Tcl"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -132,12 +145,15 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="YhR-pR-jcD" secondAttribute="trailing" constant="10" id="Aks-DL-iyl"/>
                 <constraint firstItem="G3P-1B-deP" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="100" id="JVs-mt-gDn"/>
                 <constraint firstItem="YhR-pR-jcD" firstAttribute="top" secondItem="G3P-1B-deP" secondAttribute="bottom" constant="50" id="MvQ-Kg-WbW"/>
+                <constraint firstItem="pJS-nx-UFb" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="OjL-kT-490"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="YhR-pR-jcD" secondAttribute="bottom" constant="10" id="Rns-ox-Okw"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="pJS-nx-UFb" secondAttribute="trailing" constant="20" id="ble-fI-hQX"/>
             </constraints>
             <point key="canvasLocation" x="100" y="-33"/>
         </view>
     </objects>
     <resources>
+        <image name="star" catalog="system" width="128" height="116"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

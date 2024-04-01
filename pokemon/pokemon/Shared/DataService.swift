@@ -79,11 +79,27 @@ class DataService {
             if let result = result , let data = result.jsonData{
                 let decoder = JSONDecoder()
                 let detail = try decoder.decode(PokemonDetail.self, from: data)
+                detail.isFavorite = result.isFavorite
                 return detail
             }
         } catch {
             print("Error fetch pokemon detail context:\(error.localizedDescription)")
         }
         return nil
+    }
+    
+    func updatePokemonDetail(pokedex: Int, with favorite: Bool) {
+        guard let context = getContext() else { return }
+        let fetchRequest: NSFetchRequest<PokemonDetailEntity> = PokemonDetailEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "pokedex == %d", pokedex)
+        
+        do {
+            if let pokemonDetailEntity = try context.fetch(fetchRequest).first {
+                pokemonDetailEntity.isFavorite = favorite
+                try context.save()
+            }
+        } catch {
+            print("Error updating pokemon detail: \(error.localizedDescription)")
+        }
     }
 }

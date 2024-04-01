@@ -14,7 +14,6 @@
 		A26DCD132BB6677700BA1DEF /* PokemonAPIsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCD122BB6677700BA1DEF /* PokemonAPIsTests.swift */; };
 		A26DCD1D2BB6677700BA1DEF /* pokemonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCD1C2BB6677700BA1DEF /* pokemonUITests.swift */; };
 		A26DCD1F2BB6677700BA1DEF /* pokemonUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCD1E2BB6677700BA1DEF /* pokemonUITestsLaunchTests.swift */; };
-		A26DCD432BB7BC9500BA1DEF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A26DCD422BB7BC9500BA1DEF /* Kingfisher */; };
 		A26DCD462BB7BC9F00BA1DEF /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = A26DCD452BB7BC9F00BA1DEF /* CombineMoya */; };
 		A26DCD482BB7BC9F00BA1DEF /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = A26DCD472BB7BC9F00BA1DEF /* Moya */; };
 		A26DCD4A2BB7BC9F00BA1DEF /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = A26DCD492BB7BC9F00BA1DEF /* ReactiveMoya */; };
@@ -39,6 +38,7 @@
 		A26DCDB92BB9A32100BA1DEF /* PokemonDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDB82BB9A32100BA1DEF /* PokemonDetailCoordinator.swift */; };
 		A26DCDBC2BBABFE900BA1DEF /* Pokemon.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDBA2BBABFE900BA1DEF /* Pokemon.xcdatamodeld */; };
 		A26DCDBF2BBAC04700BA1DEF /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDBE2BBAC04700BA1DEF /* DataService.swift */; };
+		A26DCDC22BBAF71D00BA1DEF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A26DCDC12BBAF71D00BA1DEF /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,11 +96,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A26DCDC22BBAF71D00BA1DEF /* Kingfisher in Frameworks */,
 				A26DCD4C2BB7BC9F00BA1DEF /* RxMoya in Frameworks */,
 				A26DCDA92BB96DE300BA1DEF /* MJRefresh in Frameworks */,
 				A26DCD462BB7BC9F00BA1DEF /* CombineMoya in Frameworks */,
 				A26DCD4A2BB7BC9F00BA1DEF /* ReactiveMoya in Frameworks */,
-				A26DCD432BB7BC9500BA1DEF /* Kingfisher in Frameworks */,
 				A26DCD482BB7BC9F00BA1DEF /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,12 +279,12 @@
 			);
 			name = pokemon;
 			packageProductDependencies = (
-				A26DCD422BB7BC9500BA1DEF /* Kingfisher */,
 				A26DCD452BB7BC9F00BA1DEF /* CombineMoya */,
 				A26DCD472BB7BC9F00BA1DEF /* Moya */,
 				A26DCD492BB7BC9F00BA1DEF /* ReactiveMoya */,
 				A26DCD4B2BB7BC9F00BA1DEF /* RxMoya */,
 				A26DCDA82BB96DE300BA1DEF /* MJRefresh */,
+				A26DCDC12BBAF71D00BA1DEF /* Kingfisher */,
 			);
 			productName = pokemon;
 			productReference = A26DCCF82BB6677400BA1DEF /* pokemon.app */;
@@ -359,9 +359,9 @@
 			);
 			mainGroup = A26DCCEF2BB6677400BA1DEF;
 			packageReferences = (
-				A26DCD412BB7BC9500BA1DEF /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				A26DCD442BB7BC9F00BA1DEF /* XCRemoteSwiftPackageReference "Moya" */,
 				A26DCDA72BB96DE300BA1DEF /* XCRemoteSwiftPackageReference "MJRefresh" */,
+				A26DCDC02BBAF71D00BA1DEF /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = A26DCCF92BB6677400BA1DEF /* Products */;
 			projectDirPath = "";
@@ -764,14 +764,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A26DCD412BB7BC9500BA1DEF /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.11.0;
-			};
-		};
 		A26DCD442BB7BC9F00BA1DEF /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya.git";
@@ -788,14 +780,17 @@
 				minimumVersion = 3.7.9;
 			};
 		};
+		A26DCDC02BBAF71D00BA1DEF /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.11.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A26DCD422BB7BC9500BA1DEF /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A26DCD412BB7BC9500BA1DEF /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
 		A26DCD452BB7BC9F00BA1DEF /* CombineMoya */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A26DCD442BB7BC9F00BA1DEF /* XCRemoteSwiftPackageReference "Moya" */;
@@ -820,6 +815,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A26DCDA72BB96DE300BA1DEF /* XCRemoteSwiftPackageReference "MJRefresh" */;
 			productName = MJRefresh;
+		};
+		A26DCDC12BBAF71D00BA1DEF /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A26DCDC02BBAF71D00BA1DEF /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 

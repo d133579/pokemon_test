@@ -17,12 +17,16 @@ class PokemonDetailViewController: UIViewController {
     @IBOutlet weak var evolutionChainStackView: UIStackView!
     @IBOutlet weak var descriptionsStackView: UIStackView!
     @IBOutlet weak var descriptionsLabel: UILabel!
+    @IBOutlet weak var favoriteBtn: UIButton!
     
     private var cancellables = Set<AnyCancellable>()
     private let viewModel:PokemonDetailViewModel!
     
-    init(pokemon:PokemonDetail) {
+    var updateHandler:() -> Void
+    
+    init(pokemon:PokemonDetail, _updateHandler:@escaping () -> Void) {
         viewModel = PokemonDetailViewModel(_pokemon: pokemon)
+        updateHandler = _updateHandler
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -33,6 +37,11 @@ class PokemonDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
+        setupFavoriteBtnIcon()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        updateHandler()
     }
 
     private func setupBinding() {
@@ -65,5 +74,18 @@ class PokemonDetailViewController: UIViewController {
         }
         bindingViewModelToView()
     }
+    
+    private func setupFavoriteBtnIcon() {
+        if (viewModel.pokemon.isFavorite) {
+            favoriteBtn.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        } else {
+            favoriteBtn.setImage(UIImage(systemName: "star"), for: .normal)
+        }
+    }
 
+    @IBAction func favoriteTapped(_ sender: Any) {
+        viewModel.pokemon.isFavorite = !viewModel.pokemon.isFavorite
+        setupFavoriteBtnIcon()
+        DataService.shared.updatePokemonDetail(pokedex: viewModel.pokemon.id, with: viewModel.pokemon.isFavorite)
+    }
 }

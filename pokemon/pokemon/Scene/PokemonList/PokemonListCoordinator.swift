@@ -28,7 +28,7 @@ class PokemonListCoordinator:Coordinator {
 
 extension PokemonListCoordinator:PokemonListViewControllerDelegate {
     func goToPokemonDetail(model: PokemonDetail) {
-        pokemonDetailCoordinator = PokemonDetailCoordinator(presenter: nav, pokemonDetail: model)
+        pokemonDetailCoordinator = PokemonDetailCoordinator(presenter: pokemonListVC!, pokemonDetail: model)
         pokemonDetailCoordinator?.start()
     }
 }

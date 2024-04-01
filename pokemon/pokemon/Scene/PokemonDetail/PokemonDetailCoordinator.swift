@@ -9,18 +9,22 @@ import Foundation
 import UIKit
 
 class PokemonDetailCoordinator:Coordinator {
-    private let presenter:UINavigationController
+    private let presenter:PokemonListViewController
     private let pokemonDetail:PokemonDetail
     private var pokemonDetailVC:PokemonDetailViewController?
     
     
-    init(presenter: UINavigationController,pokemonDetail:PokemonDetail) {
+    init(presenter: PokemonListViewController,pokemonDetail:PokemonDetail) {
         self.presenter = presenter
         self.pokemonDetail = pokemonDetail
     }
     
     func start() {
-        pokemonDetailVC = PokemonDetailViewController(pokemon: pokemonDetail)
-        presenter.pushViewController(pokemonDetailVC!, animated: true)
+        pokemonDetailVC = PokemonDetailViewController(pokemon: pokemonDetail,_updateHandler: {
+            DispatchQueue.main.async {
+                self.presenter.tableView.reloadData()
+            }
+        })
+        presenter.navigationController!.pushViewController(pokemonDetailVC!, animated: true)
     }
 }
