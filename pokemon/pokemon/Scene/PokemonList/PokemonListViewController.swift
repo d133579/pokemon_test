@@ -35,6 +35,11 @@ class PokemonListViewController: UIViewController {
         viewModel.fetchPokemonList()
     }
     
+    override func didReceiveMemoryWarning() {
+        viewModel.cleanMemoryCache()
+        tableView.reloadData()
+    }
+    
     private func setupUI() {
         func setupTableView() {
             view.addSubview(tableView)

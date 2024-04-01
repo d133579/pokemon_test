@@ -41,6 +41,8 @@ final class PokemonListViewModel {
         
         let valueHandler:(Pokemons) -> Void = { [weak self] response in
             guard let self = self else {return}
+            savePokemons(pokemons: response)
+            
             if let outlines = response.pokemons {
                 pokemonOutlines.append(contentsOf: outlines)
             }
@@ -50,10 +52,31 @@ final class PokemonListViewModel {
             isLastPage = response.next == nil
         }
         
+        func savePokemons(pokemons:Pokemons) {
+            do {
+                let data = try JSONEncoder().encode(pokemons)
+                DataService.shared.savePokemons(offset: offset, data: data)
+            } catch {
+                state = .error(error)
+            }
+        }
+        
         state = .loading
-        service.pokemonList(offset: offset)
-            .sink(receiveCompletion: completionHandler, receiveValue: valueHandler)
-            .store(in: &cancellables)
+        
+        if let data = DataService.shared.fetchPokemons(offset: offset) {
+            state = .finishedLoading
+            if let outlines = data.pokemons {
+                pokemonOutlines.append(contentsOf: outlines)
+            }
+            if (data.next != nil) {
+                offset += perPage
+            }
+            isLastPage = data.next == nil
+        } else {
+            service.pokemonList(offset: offset)
+                .sink(receiveCompletion: completionHandler, receiveValue: valueHandler)
+                .store(in: &cancellables)
+        }
     }
     
     func fetchPokemonDetail(id:Int) {
@@ -75,14 +98,35 @@ final class PokemonListViewModel {
         
         let valueHandler:(PokemonDetail) -> Void = { [weak self] response in
             guard let self = self else {return}
+            savePokemonDetail(pokemonDetail: response)
             detailDic[id] = response
             let index = pokemonOutlines.firstIndex(where: {$0.id == id})
             state = .fetchDetailSuccess(index ?? 0,response)
         }
         
+        func savePokemonDetail(pokemonDetail:PokemonDetail) {
+            do {
+                let data = try JSONEncoder().encode(pokemonDetail)
+                DataService.shared.savePokemonDetail(pokedex: pokemonDetail.id, data: data)
+            } catch {
+                state = .error(error)
+            }
+        }
+        
         state = .loading
-        service.pokemonDetail(id: id)
-            .sink(receiveCompletion: completionHandler, receiveValue: valueHandler)
-            .store(in: &cancellables)
+        
+        if let data = DataService.shared.fetchPokemonDetail(pokedex: id) {
+            detailDic[id] = data
+            let index = pokemonOutlines.firstIndex(where: {$0.id == id})
+            state = .fetchDetailSuccess(index ?? 0,data)
+        } else {
+            service.pokemonDetail(id: id)
+                .sink(receiveCompletion: completionHandler, receiveValue: valueHandler)
+                .store(in: &cancellables)
+        }
+    }
+    
+    func cleanMemoryCache() {
+        detailDic.removeAll()
     }
 }

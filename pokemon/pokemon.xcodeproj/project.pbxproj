@@ -37,6 +37,8 @@
 		A26DCDB52BB99E1000BA1DEF /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDB42BB99E1000BA1DEF /* ApplicationCoordinator.swift */; };
 		A26DCDB72BB9A01D00BA1DEF /* PokemonListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDB62BB9A01D00BA1DEF /* PokemonListCoordinator.swift */; };
 		A26DCDB92BB9A32100BA1DEF /* PokemonDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDB82BB9A32100BA1DEF /* PokemonDetailCoordinator.swift */; };
+		A26DCDBC2BBABFE900BA1DEF /* Pokemon.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDBA2BBABFE900BA1DEF /* Pokemon.xcdatamodeld */; };
+		A26DCDBF2BBAC04700BA1DEF /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDBE2BBAC04700BA1DEF /* DataService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +87,8 @@
 		A26DCDB42BB99E1000BA1DEF /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
 		A26DCDB62BB9A01D00BA1DEF /* PokemonListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListCoordinator.swift; sourceTree = "<group>"; };
 		A26DCDB82BB9A32100BA1DEF /* PokemonDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailCoordinator.swift; sourceTree = "<group>"; };
+		A26DCDBB2BBABFE900BA1DEF /* Pokemon.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Pokemon.xcdatamodel; sourceTree = "<group>"; };
+		A26DCDBE2BBAC04700BA1DEF /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,10 +145,12 @@
 		A26DCCFA2BB6677400BA1DEF /* pokemon */ = {
 			isa = PBXGroup;
 			children = (
+				A26DCDBA2BBABFE900BA1DEF /* Pokemon.xcdatamodeld */,
 				A26DCD992BB82C5600BA1DEF /* Application */,
 				A26DCD9A2BB8F48200BA1DEF /* Scene */,
 				A26DCD582BB7CCCE00BA1DEF /* Model */,
 				A26DCD4E2BB7BCEA00BA1DEF /* Network */,
+				A26DCDBD2BBAC03400BA1DEF /* Shared */,
 				A26DCD042BB6677600BA1DEF /* Assets.xcassets */,
 				A26DCD062BB6677600BA1DEF /* LaunchScreen.storyboard */,
 				A26DCD092BB6677600BA1DEF /* Info.plist */,
@@ -246,6 +252,14 @@
 				A26DCDB82BB9A32100BA1DEF /* PokemonDetailCoordinator.swift */,
 			);
 			path = PokemonDetail;
+			sourceTree = "<group>";
+		};
+		A26DCDBD2BBAC03400BA1DEF /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				A26DCDBE2BBAC04700BA1DEF /* DataService.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -399,8 +413,10 @@
 				A26DCCFC2BB6677400BA1DEF /* AppDelegate.swift in Sources */,
 				A26DCCFE2BB6677400BA1DEF /* SceneDelegate.swift in Sources */,
 				A26DCDB12BB9825600BA1DEF /* PokemonDetailViewController.swift in Sources */,
+				A26DCDBC2BBABFE900BA1DEF /* Pokemon.xcdatamodeld in Sources */,
 				A26DCD572BB7CBB600BA1DEF /* PokemonAPIs.swift in Sources */,
 				A26DCD982BB81C3000BA1DEF /* PokemonDetail.swift in Sources */,
+				A26DCDBF2BBAC04700BA1DEF /* DataService.swift in Sources */,
 				A26DCDA42BB8FD9700BA1DEF /* PokemonListTableViewCell.swift in Sources */,
 				A26DCDB92BB9A32100BA1DEF /* PokemonDetailCoordinator.swift in Sources */,
 				A26DCD9F2BB8F5F500BA1DEF /* PokemonListViewModel.swift in Sources */,
@@ -806,6 +822,19 @@
 			productName = MJRefresh;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		A26DCDBA2BBABFE900BA1DEF /* Pokemon.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A26DCDBB2BBABFE900BA1DEF /* Pokemon.xcdatamodel */,
+			);
+			currentVersion = A26DCDBB2BBABFE900BA1DEF /* Pokemon.xcdatamodel */;
+			path = Pokemon.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A26DCCF02BB6677400BA1DEF /* Project object */;
 }
