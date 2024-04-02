@@ -18,7 +18,7 @@ class PokemonListTableViewCell: UITableViewCell {
     
     private var pokemonOutline:PokemonOutline!
     private var pokemonDetail:PokemonDetail!
-    
+    var updateFavoriteHandler:((PokemonDetail)->Void)?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -46,6 +46,8 @@ class PokemonListTableViewCell: UITableViewCell {
         pokemonDetail = _pokemonDetail
         thumbnailImageView.kf.setImage(with: URL(string: pokemonDetail.sprites.frontImageURL))
         typesLabel.text = pokemonDetail.types.map{$0.name}.joined(separator: ",")
+        idLabel.text = String(pokemonDetail.id)
+        nameLabel.text = pokemonDetail.name
         setupFavoriteBtnIcon()
         
     }
@@ -62,5 +64,6 @@ class PokemonListTableViewCell: UITableViewCell {
         pokemonDetail.isFavorite = !pokemonDetail.isFavorite
         setupFavoriteBtnIcon()
         DataService.shared.updatePokemonDetail(pokedex: pokemonDetail.id, with: pokemonDetail.isFavorite)
+        updateFavoriteHandler?(pokemonDetail)
     }
 }

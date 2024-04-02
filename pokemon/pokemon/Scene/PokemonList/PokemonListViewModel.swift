@@ -18,6 +18,7 @@ enum PokemonListViewModelState {
 final class PokemonListViewModel {
     @Published private(set) var state:PokemonListViewModelState = .loading
     @Published private(set) var pokemonOutlines = [PokemonOutline]()
+    @Published private(set) var favoritePokemons = [PokemonDetail]()
     private let service = PokemonAPIs()
     private var cancellables = Set<AnyCancellable>()
     private var offset = 0
@@ -124,6 +125,16 @@ final class PokemonListViewModel {
                 .sink(receiveCompletion: completionHandler, receiveValue: valueHandler)
                 .store(in: &cancellables)
         }
+    }
+    
+    func fetchFavoritePokemons() {
+        favoritePokemons = DataService.shared.fetchFavoritePokemons() ?? []
+    }
+    
+    func updateFavoritePokemonDetail(by pokemon:PokemonDetail)  {
+        let updatedFavoritePokemon = favoritePokemons.filter { $0.id != pokemon.id }
+        favoritePokemons = updatedFavoritePokemon
+        detailDic[pokemon.id]?.isFavorite = pokemon.isFavorite
     }
     
     func cleanMemoryCache() {

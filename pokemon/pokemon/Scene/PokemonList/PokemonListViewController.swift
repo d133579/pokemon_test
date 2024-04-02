@@ -16,9 +16,30 @@ protocol PokemonListViewControllerDelegate:AnyObject {
 class PokemonListViewController: UIViewController {
     lazy var tableView:UITableView = {
         var tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
         return tableView
+    }()
+    
+    lazy var isFavoriteLabel:UILabel = {
+        let label = UILabel()
+        label.text = "Is Favorite"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var isFavoriteSwitch:UISwitch = {
+        let btn = UISwitch()
+        btn.addTarget(self, action: #selector(isFavoriteTapped(sender: )), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+    
+    lazy var isFavoriteContainerView:UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private let viewModel = PokemonListViewModel()
@@ -41,13 +62,39 @@ class PokemonListViewController: UIViewController {
     }
     
     private func setupUI() {
+        func setupIsFavoriteBtn() {
+            view.addSubview(isFavoriteContainerView)
+            isFavoriteContainerView.addSubview(isFavoriteLabel)
+            isFavoriteContainerView.addSubview(isFavoriteSwitch)
+
+            NSLayoutConstraint.activate([
+                isFavoriteContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                isFavoriteContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                isFavoriteContainerView.heightAnchor.constraint(equalToConstant: 50),
+            ])
+
+            NSLayoutConstraint.activate([
+                isFavoriteLabel.leadingAnchor.constraint(equalTo: isFavoriteContainerView.leadingAnchor),
+                isFavoriteLabel.topAnchor.constraint(equalTo: isFavoriteContainerView.topAnchor),
+                isFavoriteLabel.bottomAnchor.constraint(equalTo: isFavoriteContainerView.bottomAnchor),
+                isFavoriteLabel.trailingAnchor.constraint(equalTo: isFavoriteSwitch.leadingAnchor, constant: -10),
+            ])
+
+            NSLayoutConstraint.activate([
+                isFavoriteSwitch.centerYAnchor.constraint(equalTo: isFavoriteContainerView.centerYAnchor),
+                isFavoriteSwitch.trailingAnchor.constraint(equalTo: isFavoriteContainerView.trailingAnchor, constant: -5),
+            ])
+        }
+        
         func setupTableView() {
             view.addSubview(tableView)
-            tableView.translatesAutoresizingMaskIntoConstraints = false
-            tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-            tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-            tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+            NSLayoutConstraint.activate([
+                tableView.topAnchor.constraint(equalTo: isFavoriteContainerView.bottomAnchor, constant: 0),
+                tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                tableView.rightAnchor.constraint(equalTo: view.rightAnchor)
+            ])
+            
             tableView.register(UINib(nibName: "PokemonListTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
             
             let footer = MJRefreshAutoNormalFooter { [weak self] in
@@ -57,7 +104,7 @@ class PokemonListViewController: UIViewController {
             footer.loadingView?.color = .black
             tableView.mj_footer = footer
         }
-        
+        setupIsFavoriteBtn()
         setupTableView()
     }
     
@@ -87,17 +134,47 @@ class PokemonListViewController: UIViewController {
                     }
                 }
                 .store(in: &cancellables)
+            
+            viewModel.$favoritePokemons
+                .receive(on: DispatchQueue.main)
+                .sink { _ in
+                    if self.isFavoriteSwitch.isOn {
+                        self.tableView.reloadData()
+                    }
+                }
+                .store(in: &cancellables)
         }
         bindingViewModelToView()
+    }
+    
+    @objc func isFavoriteTapped(sender:UISwitch) {
+        if sender.isOn {
+            viewModel.fetchFavoritePokemons()
+            tableView.mj_footer?.endRefreshingWithNoMoreData()
+        } else {
+            tableView.reloadData()
+            self.tableView.mj_footer?.endRefreshing()
+        }
     }
 }
 
 extension PokemonListViewController: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFavoriteSwitch.isOn {
+            return viewModel.favoritePokemons.count
+        }
         return viewModel.pokemonOutlines.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if isFavoriteSwitch.isOn {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)! as! PokemonListTableViewCell
+            cell.setupDetail(_pokemonDetail: viewModel.favoritePokemons[indexPath.row])
+            cell.updateFavoriteHandler = {[weak self] pokemon in
+                self?.viewModel.updateFavoritePokemonDetail(by: pokemon)
+            }
+            return cell
+        }
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)! as! PokemonListTableViewCell
         cell.configure(_pokemonOutline: viewModel.pokemonOutlines[indexPath.row], detailHandler: { id in
             viewModel.fetchPokemonDetail(id: id)
@@ -106,8 +183,12 @@ extension PokemonListViewController: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let detail = viewModel.detailDic[viewModel.pokemonOutlines[indexPath.row].id] {
-            delegate?.goToPokemonDetail(model: detail)
+        if isFavoriteSwitch.isOn {
+            delegate?.goToPokemonDetail(model: viewModel.favoritePokemons[indexPath.row])
+        } else {
+            if let detail = viewModel.detailDic[viewModel.pokemonOutlines[indexPath.row].id] {
+                delegate?.goToPokemonDetail(model: detail)
+            }
         }
     }
     
