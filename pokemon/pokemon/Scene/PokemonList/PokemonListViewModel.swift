@@ -19,7 +19,7 @@ final class PokemonListViewModel {
     @Published private(set) var state:PokemonListViewModelState = .loading
     @Published private(set) var pokemonOutlines = [PokemonOutline]()
     @Published private(set) var favoritePokemons = [PokemonDetail]()
-    private let service = PokemonAPIs()
+    private var service:PokemonAPIsDelegate!
     private var cancellables = Set<AnyCancellable>()
     private var _offset = 0
     
@@ -40,6 +40,10 @@ final class PokemonListViewModel {
     private(set) var isLastPage = false
     static let perPage = 20
     private(set) var detailDic = [Int:PokemonDetail]()
+    
+    init(service:PokemonAPIsDelegate) {
+        self.service = service
+    }
     
     func fetchPokemonList() -> AnyPublisher<Pokemons, Error> {
         func savePokemons(pokemons:Pokemons) {
@@ -73,7 +77,7 @@ final class PokemonListViewModel {
             .eraseToAnyPublisher()
         }
         
-        return service.pokemonList(offset: offset)
+        return service.pokemonList(limit: <#Int#>, offset: offset)
             .handleEvents(receiveOutput: { response in
                 savePokemons(pokemons: response)
                 appendDataToPokemonOutlines(data: response)

@@ -43,7 +43,7 @@ class PokemonListViewController: UIViewController {
         return view
     }()
     
-    private let viewModel = PokemonListViewModel()
+    private let viewModel = PokemonListViewModel(service: PokemonAPIs())
     private var cancellables = Set<AnyCancellable>()
     private let cellIdentifier = "cell"
     weak var delegate:PokemonListViewControllerDelegate?
