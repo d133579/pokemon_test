@@ -77,7 +77,7 @@ final class PokemonListViewModel {
             .eraseToAnyPublisher()
         }
         
-        return service.pokemonList(limit: <#Int#>, offset: offset)
+        return service.pokemonList(limit: 10, offset: offset)
             .handleEvents(receiveOutput: { response in
                 savePokemons(pokemons: response)
                 appendDataToPokemonOutlines(data: response)

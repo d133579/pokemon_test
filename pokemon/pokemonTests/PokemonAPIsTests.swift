@@ -13,11 +13,11 @@ import Combine
 
 final class PokemonAPIsTests: XCTestCase {
     
-    private let service = PokemonAPIs()
+    private var sut:MockPokemonAPIs!
     var cancellables = Set<AnyCancellable>()
     
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        sut = MockPokemonAPIs()
     }
 
     override func tearDownWithError() throws {
@@ -27,18 +27,21 @@ final class PokemonAPIsTests: XCTestCase {
     func testPokemonList() throws {
         let exp = expectation(description: "pokemon list")
         var error: Error?
-        service.pokemonList(offset: 0)
-            .sink { comletion in
-                switch comletion {
-                case .finished:
-                    break
+        sut.pokemonList(limit: 20, offset: 10)
+            .sink { completion in
+                switch completion {
                 case .failure(let _error):
                     error = _error
+                    exp.fulfill()
+                    break
+                case .finished:
+                    exp.fulfill()
+                    break
                 }
-                exp.fulfill()
-            } receiveValue: { pokemons in
-                print("")
-            }.store(in: &cancellables)
+            } receiveValue: { _ in
+            }
+            .store(in: &cancellables)
+        
         waitForExpectations(timeout: 10)
         XCTAssertNil(error)
     }
@@ -47,15 +50,18 @@ final class PokemonAPIsTests: XCTestCase {
         let exp = expectation(description: "pokemon detail")
         var error:Error?
         
-        service.pokemonDetail(id: 1)
+        sut.pokemonDetail(id: 1)
             .sink { completion in
                 switch completion {
                 case .finished:
+                    exp.fulfill()
                     break
                 case .failure(let _error):
                     error = _error
+                    exp.fulfill()
+                    break
                 }
-                exp.fulfill()
+                
             } receiveValue: { detail in
                 print(detail)
             }.store(in: &cancellables)

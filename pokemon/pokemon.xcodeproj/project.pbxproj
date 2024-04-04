@@ -39,6 +39,8 @@
 		A26DCDBC2BBABFE900BA1DEF /* Pokemon.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDBA2BBABFE900BA1DEF /* Pokemon.xcdatamodeld */; };
 		A26DCDBF2BBAC04700BA1DEF /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26DCDBE2BBAC04700BA1DEF /* DataService.swift */; };
 		A26DCDC22BBAF71D00BA1DEF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A26DCDC12BBAF71D00BA1DEF /* Kingfisher */; };
+		A29B1D3F2BBEECFD0060BC1D /* MockAPIData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29B1D3E2BBEECFD0060BC1D /* MockAPIData.swift */; };
+		A29B1D412BBEF02D0060BC1D /* MockPokemonAPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29B1D402BBEF02D0060BC1D /* MockPokemonAPIs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +91,8 @@
 		A26DCDB82BB9A32100BA1DEF /* PokemonDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailCoordinator.swift; sourceTree = "<group>"; };
 		A26DCDBB2BBABFE900BA1DEF /* Pokemon.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Pokemon.xcdatamodel; sourceTree = "<group>"; };
 		A26DCDBE2BBAC04700BA1DEF /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		A29B1D3E2BBEECFD0060BC1D /* MockAPIData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIData.swift; sourceTree = "<group>"; };
+		A29B1D402BBEF02D0060BC1D /* MockPokemonAPIs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPokemonAPIs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +167,8 @@
 			children = (
 				A26DCD122BB6677700BA1DEF /* PokemonAPIsTests.swift */,
 				A26DCDA52BB9621100BA1DEF /* PokemonListViewModelTests.swift */,
+				A29B1D3E2BBEECFD0060BC1D /* MockAPIData.swift */,
+				A29B1D402BBEF02D0060BC1D /* MockPokemonAPIs.swift */,
 			);
 			path = pokemonTests;
 			sourceTree = "<group>";
@@ -432,7 +438,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A29B1D412BBEF02D0060BC1D /* MockPokemonAPIs.swift in Sources */,
 				A26DCD132BB6677700BA1DEF /* PokemonAPIsTests.swift in Sources */,
+				A29B1D3F2BBEECFD0060BC1D /* MockAPIData.swift in Sources */,
 				A26DCDA62BB9621100BA1DEF /* PokemonListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

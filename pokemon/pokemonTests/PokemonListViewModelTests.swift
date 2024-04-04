@@ -11,11 +11,11 @@ import Combine
 @testable import pokemon
 
 final class PokemonListViewModelTests: XCTestCase {
-    final var viewModel:PokemonListViewModel!
+    final var sut:PokemonListViewModel!
     var cancellables = Set<AnyCancellable>()
     
     override func setUpWithError() throws {
-        viewModel = PokemonListViewModel()
+        sut = PokemonListViewModel(service: MockPokemonAPIs())
     }
 
     override func tearDownWithError() throws {
@@ -26,28 +26,20 @@ final class PokemonListViewModelTests: XCTestCase {
         let exp = expectation(description: "pokemon list")
         var error: Error?
         
-        viewModel.$pokemonOutlines
-            .receive(on: DispatchQueue.main)
-            .sink { a in
-                exp.fulfill()
-            }
-            .store(in: &cancellables)
-        
-        viewModel.$state
-            .receive(on: DispatchQueue.main)
-            .sink { state in
-                switch state {
-                case .error(let _error):
+        sut.fetchPokemonList()
+            .sink { completion in
+                switch completion {
+                case .failure(let _error):
                     error = _error
-                case .finishedLoading:
-                    
-                    break
-                default:
+                    exp.fulfill()
+                case .finished:
+                    exp.fulfill()
                     break
                 }
-                
-            }.store(in: &cancellables)
-        viewModel.fetchPokemonList()
+            } receiveValue: { _ in
+            }
+            .store(in: &cancellables)
+
         waitForExpectations(timeout: 10)
         XCTAssertNil(error)
     }
@@ -55,22 +47,21 @@ final class PokemonListViewModelTests: XCTestCase {
     func testFetchPokemonDetail() throws {
         let exp = expectation(description: "pokemon detail")
         var error: Error?
-        
-        viewModel.$state
-            .receive(on: DispatchQueue.main)
-            .sink { state in
-                switch state {
-                case .error(let _error):
+        sut.fetchPokemonDetail(id: 1)
+            .sink { completion in
+                switch completion {
+                case .failure(let _error):
                     error = _error
-                case .fetchDetailSuccess(_, _):
+                    exp.fulfill()
+                case .finished:
                     exp.fulfill()
                     break
-                default:
-                    break
                 }
+            } receiveValue: { _ in
                 
-            }.store(in: &cancellables)
-        viewModel.fetchPokemonDetail(id: 1)
+            }
+            .store(in: &cancellables)
+
         waitForExpectations(timeout: 10)
         XCTAssertNil(error)
     }
