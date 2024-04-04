@@ -69,7 +69,6 @@ final class PokemonListViewModel {
                 appendDataToPokemonOutlines(data: data)
                 continuation(.success(data))
             }
-            .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
         }
@@ -90,36 +89,11 @@ final class PokemonListViewModel {
                     }
                 }
             })
-            .subscribe(on: DispatchQueue.global())
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
     
-    func fetchPokemonDetail(id:Int) {
-        if let detail = detailDic[id] {
-            let index = pokemonOutlines.firstIndex(where: {$0.id == id})
-            state = .fetchDetailSuccess(index!,detail)
-            return
-        }
-
-        let completionHandler: (Subscribers.Completion<Error>) -> Void = { [weak self] completion in
-            guard let self = self else {return}
-            switch completion {
-            case .finished:
-                self.state = .finishedLoading
-            case .failure(let error):
-                self.state = .error(error)
-            }
-        }
-        
-        let valueHandler:(PokemonDetail) -> Void = { [weak self] response in
-            guard let self = self else {return}
-            savePokemonDetail(pokemonDetail: response)
-            detailDic[id] = response
-            let index = pokemonOutlines.firstIndex(where: {$0.id == id})
-            state = .fetchDetailSuccess(index ?? 0,response)
-        }
-        
+    func fetchPokemonDetail(id:Int) -> AnyPublisher<PokemonDetail,Error> {
         func savePokemonDetail(pokemonDetail:PokemonDetail) {
             do {
                 let data = try JSONEncoder().encode(pokemonDetail)
@@ -128,18 +102,38 @@ final class PokemonListViewModel {
                 state = .error(error)
             }
         }
-        
         state = .loading
         
         if let data = DataService.shared.fetchPokemonDetail(pokedex: id) {
-            detailDic[id] = data
-            let index = pokemonOutlines.firstIndex(where: {$0.id == id})
-            state = .fetchDetailSuccess(index ?? 0,data)
-        } else {
-            service.pokemonDetail(id: id)
-                .sink(receiveCompletion: completionHandler, receiveValue: valueHandler)
-                .store(in: &cancellables)
+            return Future<PokemonDetail,Error> {[weak self] continuation in
+                guard let self = self else {return}
+                detailDic[id] = data
+                let index = pokemonOutlines.firstIndex(where: {$0.id == id})
+                state = .fetchDetailSuccess(index ?? 0,data)
+                continuation(.success(data))
+            }
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
         }
+        
+        return service.pokemonDetail(id: id)
+            .handleEvents(receiveOutput: {[weak self] response in
+                guard let self = self else {return}
+                savePokemonDetail(pokemonDetail: response)
+                self.detailDic[id] = response
+            }, receiveCompletion: {[weak self] completion in
+                guard let self = self else {return}
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    self.state = .error(error)
+                }
+            })
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
     }
     
     func fetchFavoritePokemons() {

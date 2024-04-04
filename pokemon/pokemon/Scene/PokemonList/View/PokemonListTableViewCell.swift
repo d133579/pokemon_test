@@ -28,6 +28,9 @@ class PokemonListTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         thumbnailImageView.image = nil
+        idLabel.text = ""
+        nameLabel.text = ""
+        typesLabel.text = ""
         favoriteBtn.setImage(UIImage(systemName: "star"), for: .normal)
     }
     

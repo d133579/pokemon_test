@@ -20,11 +20,7 @@ class PokemonDetailCoordinator:Coordinator {
     }
     
     func start() {
-        pokemonDetailVC = PokemonDetailViewController(pokemon: pokemonDetail,_updateHandler: {
-            DispatchQueue.main.async {
-                self.presenter.tableView.reloadData()
-            }
-        })
+        pokemonDetailVC = PokemonDetailViewController(pokemon: pokemonDetail,_updateHandler: presenter.updateHandler)
         presenter.navigationController!.pushViewController(pokemonDetailVC!, animated: true)
     }
 }

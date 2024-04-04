@@ -10,7 +10,7 @@ import Combine
 import MJRefresh
 
 protocol PokemonListViewControllerDelegate:AnyObject {
-    func goToPokemonDetail(model:PokemonDetail)
+    func goToPokemonDetail(model:PokemonDetail,updateHandler: (() -> Void)?)
 }
 
 class PokemonListViewController: UIViewController {
@@ -47,6 +47,16 @@ class PokemonListViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private let cellIdentifier = "cell"
     weak var delegate:PokemonListViewControllerDelegate?
+    var updateHandler:(() -> Void)?
+    
+    init (updateHandler: (() -> Void)?) {
+        self.updateHandler = updateHandler
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +70,6 @@ class PokemonListViewController: UIViewController {
                 self.tableView.reloadData()
             }
             .store(in: &cancellables)
-
     }
     
     override func didReceiveMemoryWarning() {
@@ -127,10 +136,7 @@ class PokemonListViewController: UIViewController {
                 .receive(on: DispatchQueue.main)
                 .sink { state in
                     switch state {
-                    case .fetchDetailSuccess(let index,let detail):
-                        if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PokemonListTableViewCell {
-                            cell.setupDetail(_pokemonDetail: detail)
-                        }
+
                     default:
                         break
                     }
@@ -157,7 +163,17 @@ class PokemonListViewController: UIViewController {
                 }
                 .store(in: &cancellables)
         }
+        
+        func bindingBlock() {
+            updateHandler = { [weak self] in
+                DispatchQueue.main.async {
+                    self?.viewModel.fetchFavoritePokemons()
+                    self?.tableView.reloadData()
+                }
+            }
+        }
         bindingViewModelToView()
+        bindingBlock()
     }
     
     @objc func isFavoriteTapped(sender:UISwitch) {
@@ -191,16 +207,23 @@ extension PokemonListViewController: UITableViewDelegate,UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)! as! PokemonListTableViewCell
         cell.configure(_pokemonOutline: viewModel.pokemonOutlines[indexPath.row], detailHandler: { id in
             viewModel.fetchPokemonDetail(id: id)
+                .sink { _ in
+                } receiveValue: { data in
+                    if let index = self.viewModel.pokemonOutlines.firstIndex(where: {$0.id == id}), let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PokemonListTableViewCell {
+                        cell.setupDetail(_pokemonDetail: data)
+                    }
+                }
+                .store(in: &cancellables)
         })
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isFavoriteSwitch.isOn {
-            delegate?.goToPokemonDetail(model: viewModel.favoritePokemons[indexPath.row])
+            delegate?.goToPokemonDetail(model: viewModel.favoritePokemons[indexPath.row],updateHandler: updateHandler)
         } else {
             if let detail = viewModel.detailDic[viewModel.pokemonOutlines[indexPath.row].id] {
-                delegate?.goToPokemonDetail(model: detail)
+                delegate?.goToPokemonDetail(model: detail,updateHandler: updateHandler)
             }
         }
     }

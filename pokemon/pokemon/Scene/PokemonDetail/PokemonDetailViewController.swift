@@ -22,9 +22,9 @@ class PokemonDetailViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private let viewModel:PokemonDetailViewModel!
     
-    var updateHandler:() -> Void
+    var updateHandler:(() -> Void)?
     
-    init(pokemon:PokemonDetail, _updateHandler:@escaping () -> Void) {
+    init(pokemon:PokemonDetail, _updateHandler:(() -> Void)?) {
         viewModel = PokemonDetailViewModel(_pokemon: pokemon)
         updateHandler = _updateHandler
         super.init(nibName: nil, bundle: nil)
@@ -41,7 +41,7 @@ class PokemonDetailViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        updateHandler()
+        updateHandler?()
     }
 
     private func setupBinding() {

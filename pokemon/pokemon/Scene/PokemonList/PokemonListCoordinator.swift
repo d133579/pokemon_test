@@ -13,13 +13,13 @@ class PokemonListCoordinator:Coordinator {
     private var pokemonListVC:PokemonListViewController?
     private var pokemonDetailCoordinator:PokemonDetailCoordinator?
     private var nav:UINavigationController!
-    
+    private var pokemonUpdateHandler:(() -> Void)?
     init(presenter: UIWindow) {
         self.presenter = presenter
     }
     
     func start() {
-        pokemonListVC = PokemonListViewController()
+        pokemonListVC = PokemonListViewController(updateHandler: pokemonUpdateHandler)
         pokemonListVC?.delegate = self
         nav = UINavigationController(rootViewController: pokemonListVC!)
         presenter.rootViewController = nav
@@ -27,8 +27,9 @@ class PokemonListCoordinator:Coordinator {
 }
 
 extension PokemonListCoordinator:PokemonListViewControllerDelegate {
-    func goToPokemonDetail(model: PokemonDetail) {
+    func goToPokemonDetail(model: PokemonDetail, updateHandler: (() -> Void)?) {
         pokemonDetailCoordinator = PokemonDetailCoordinator(presenter: pokemonListVC!, pokemonDetail: model)
         pokemonDetailCoordinator?.start()
+        pokemonUpdateHandler = updateHandler
     }
 }
