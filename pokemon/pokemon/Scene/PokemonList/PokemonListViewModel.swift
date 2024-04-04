@@ -21,38 +21,27 @@ final class PokemonListViewModel {
     @Published private(set) var favoritePokemons = [PokemonDetail]()
     private let service = PokemonAPIs()
     private var cancellables = Set<AnyCancellable>()
-    private var offset = 0
+    private var _offset = 0
+    
+    private let queue = DispatchQueue(label: "offsetQueue", attributes: .concurrent)
+    private var offset:Int  {
+        get {
+            queue.sync {
+                _offset
+            }
+        }
+        set {
+            queue.async(flags:.barrier) {
+                self._offset = newValue
+            }
+        }
+    }
+    
     private(set) var isLastPage = false
-    private let perPage = 20
+    static let perPage = 20
     private(set) var detailDic = [Int:PokemonDetail]()
     
-    func fetchPokemonList() {
-        let completionHandler: (Subscribers.Completion<Error>) -> Void = { [weak self] completion in
-            guard let self = self else {return}
-            switch completion {
-            case .finished:
-                self.state = .finishedLoading
-            case .failure(let error):
-                self.state = .error(error)
-                if offset > 0 {
-                    offset -= perPage
-                }
-            }
-        }
-        
-        let valueHandler:(Pokemons) -> Void = { [weak self] response in
-            guard let self = self else {return}
-            savePokemons(pokemons: response)
-            
-            if let outlines = response.pokemons {
-                pokemonOutlines.append(contentsOf: outlines)
-            }
-            if (response.next != nil) {
-                offset += perPage
-            }
-            isLastPage = response.next == nil
-        }
-        
+    func fetchPokemonList() -> AnyPublisher<Pokemons, Error> {
         func savePokemons(pokemons:Pokemons) {
             do {
                 let data = try JSONEncoder().encode(pokemons)
@@ -62,22 +51,48 @@ final class PokemonListViewModel {
             }
         }
         
-        state = .loading
-        
-        if let data = DataService.shared.fetchPokemons(offset: offset) {
-            state = .finishedLoading
+        func appendDataToPokemonOutlines(data:Pokemons) {
             if let outlines = data.pokemons {
                 pokemonOutlines.append(contentsOf: outlines)
             }
             if (data.next != nil) {
-                offset += perPage
+                offset += PokemonListViewModel.perPage
             }
             isLastPage = data.next == nil
-        } else {
-            service.pokemonList(offset: offset)
-                .sink(receiveCompletion: completionHandler, receiveValue: valueHandler)
-                .store(in: &cancellables)
         }
+        
+        state = .loading
+        
+        if let data = DataService.shared.fetchPokemons(offset: offset) {
+            state = .finishedLoading
+            return Future<Pokemons, Error> { continuation in
+                appendDataToPokemonOutlines(data: data)
+                continuation(.success(data))
+            }
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+        }
+        
+        return service.pokemonList(offset: offset)
+            .handleEvents(receiveOutput: { response in
+                savePokemons(pokemons: response)
+                appendDataToPokemonOutlines(data: response)
+            }, receiveCompletion: { [weak self] completion in
+                guard let self = self else {return}
+                switch completion {
+                case .finished:
+                    self.state = .finishedLoading
+                case .failure(let error):
+                    self.state = .error(error)
+                    if offset > 0 {
+                        offset -= PokemonListViewModel.perPage
+                    }
+                }
+            })
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
     }
     
     func fetchPokemonDetail(id:Int) {

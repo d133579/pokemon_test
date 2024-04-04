@@ -6,7 +6,7 @@
         <attribute name="pokedex" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <entity name="PokemonsEntity" representedClassName="PokemonsEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="jsonData" optional="YES" attributeType="Binary"/>
+        <attribute name="jsonData" attributeType="Binary"/>
         <attribute name="offset" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
 </model>

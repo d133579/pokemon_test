@@ -55,6 +55,12 @@ class PokemonListViewController: UIViewController {
         setupUI()
         setupBinding()
         viewModel.fetchPokemonList()
+            .sink { _ in
+            } receiveValue: { _ in
+                self.tableView.reloadData()
+            }
+            .store(in: &cancellables)
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -101,6 +107,12 @@ class PokemonListViewController: UIViewController {
             let footer = MJRefreshAutoNormalFooter { [weak self] in
                 guard let self = self else {return}
                 self.viewModel.fetchPokemonList()
+                    .sink { _ in
+                    } receiveValue: { _ in
+                        self.tableView.reloadData()
+                    }
+                    .store(in: &cancellables)
+
             }
             footer.loadingView?.color = .black
             tableView.mj_footer = footer
