@@ -31,6 +31,7 @@ class PokemonListViewController: UIViewController {
     
     lazy var isFavoriteSwitch:UISwitch = {
         let btn = UISwitch()
+        btn.accessibilityIdentifier = "favoriteSwitch"
         btn.addTarget(self, action: #selector(isFavoriteTapped(sender: )), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn

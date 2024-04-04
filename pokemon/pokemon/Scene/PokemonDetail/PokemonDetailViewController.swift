@@ -37,7 +37,7 @@ class PokemonDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
-        setupFavoriteBtnIcon()
+        setupUI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -75,17 +75,18 @@ class PokemonDetailViewController: UIViewController {
         bindingViewModelToView()
     }
     
-    private func setupFavoriteBtnIcon() {
-        if (viewModel.pokemon.isFavorite) {
-            favoriteBtn.setImage(UIImage(systemName: "star.fill"), for: .normal)
-        } else {
+    private func setupUI() {
+        func setupFavoriteBtnIcon() {
+            favoriteBtn.setImage(UIImage(systemName: "star.fill"), for: .selected)
             favoriteBtn.setImage(UIImage(systemName: "star"), for: .normal)
+            favoriteBtn.isSelected = viewModel.pokemon.isFavorite
         }
+        setupFavoriteBtnIcon()
     }
 
     @IBAction func favoriteTapped(_ sender: Any) {
         viewModel.pokemon.isFavorite = !viewModel.pokemon.isFavorite
-        setupFavoriteBtnIcon()
+        favoriteBtn.isSelected = viewModel.pokemon.isFavorite
         DataService.shared.updatePokemonDetail(pokedex: viewModel.pokemon.id, with: viewModel.pokemon.isFavorite)
     }
 }

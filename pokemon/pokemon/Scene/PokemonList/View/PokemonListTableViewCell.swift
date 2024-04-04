@@ -22,6 +22,8 @@ class PokemonListTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        favoriteBtn.setImage(UIImage(systemName: "star.fill"), for: .selected)
+        favoriteBtn.setImage(UIImage(systemName: "star"), for: .normal)
     }
     
     override func prepareForReuse() {
@@ -48,21 +50,13 @@ class PokemonListTableViewCell: UITableViewCell {
         typesLabel.text = pokemonDetail.types.map{$0.name}.joined(separator: ",")
         idLabel.text = String(pokemonDetail.id)
         nameLabel.text = pokemonDetail.name
-        setupFavoriteBtnIcon()
+        favoriteBtn.isSelected = pokemonDetail.isFavorite
         
-    }
-    
-    private func setupFavoriteBtnIcon() {
-        if (pokemonDetail.isFavorite) {
-            favoriteBtn.setImage(UIImage(systemName: "star.fill"), for: .normal)
-        } else {
-            favoriteBtn.setImage(UIImage(systemName: "star"), for: .normal)
-        }
     }
     
     @IBAction func favoriteTapped(_ sender: Any) {
         pokemonDetail.isFavorite = !pokemonDetail.isFavorite
-        setupFavoriteBtnIcon()
+        favoriteBtn.isSelected = pokemonDetail.isFavorite
         DataService.shared.updatePokemonDetail(pokedex: pokemonDetail.id, with: pokemonDetail.isFavorite)
         updateFavoriteHandler?(pokemonDetail)
     }
